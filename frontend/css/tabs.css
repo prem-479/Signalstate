@@ -1,0 +1,633 @@
+/* ============================================
+   Tab Navigation & Content System
+   ============================================ */
+
+.tab-nav {
+    display: flex;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-default);
+    overflow-x: auto;
+    /* Hide scrollbar but keep scrollable */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tab-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: transparent;
+    border: none;
+    color: var(--foreground-muted);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: var(--foreground);
+    background: var(--surface);
+}
+
+.tab-btn.active {
+    color: white;
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1px var(--border-accent);
+}
+
+/* ============================================
+   Tab Content Container
+   ============================================ */
+
+.tab-content {
+    flex: 1;
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    max-height: 700px;
+    /* Hide scrollbar but keep scrollable */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.tab-content::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-pane {
+    display: none;
+    animation: tabFadeIn 0.3s ease-out;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Tab Headers
+   ============================================ */
+
+.tab-header {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab-header h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.tab-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.warning-badge {
+    display: inline-block;
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid var(--warning);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--warning);
+}
+
+/* ============================================
+   Emotion Probabilities
+   ============================================ */
+
+.emotion-probabilities {
+    margin-bottom: var(--spacing-xl);
+}
+
+.emotion-probabilities h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+.prob-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.prob-bar-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.prob-label {
+    min-width: 80px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.prob-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+.prob-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+    border-radius: 100px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prob-value {
+    min-width: 45px;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+/* ============================================
+   Charts & Visualizations
+   ============================================ */
+
+.emotion-timeline,
+.stability-chart,
+.sentiment-distribution {
+    margin-bottom: var(--spacing-xl);
+}
+
+.emotion-timeline h3,
+.stability-chart h3,
+.sentiment-distribution h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-md);
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.chart-note {
+    margin-top: var(--spacing-sm);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ============================================
+   Technical Info Grid
+   ============================================ */
+
+.technical-info {
+    margin-top: var(--spacing-xl);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.info-item {
+    background: var(--tertiary-bg);
+    padding: var(--spacing-md);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.info-item label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-xs);
+}
+
+.info-item value {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+/* ============================================
+   Engagement & Meters
+   ============================================ */
+
+.engagement-meter,
+.attention-gauge {
+    margin-bottom: var(--spacing-xl);
+}
+
+.meter-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.meter-bar {
+    flex: 1;
+    height: 32px;
+    background: var(--tertiary-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 16px;
+    transition: width 0.5s ease-out;
+}
+
+.meter-value {
+    min-width: 60px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-align: right;
+}
+
+.meter-note {
+    margin-top: var(--spacing-sm);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   Session Stats Cards
+   ============================================ */
+
+.session-stats {
+    margin-top: var(--spacing-xl);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.02);
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    border: 1px solid var(--border-default);
+    text-align: center;
+    transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+    background: var(--surface);
+    border-color: var(--border-accent);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-base);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--foreground);
+    margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   Attention Breakdown
+   ============================================ */
+
+.attention-breakdown {
+    margin-bottom: var(--spacing-xl);
+}
+
+.breakdown-bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.breakdown-item {
+    display: grid;
+    grid-template-columns: 100px 1fr 60px;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.breakdown-item label {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.breakdown-bar {
+    height: 24px;
+    background: var(--tertiary-bg);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.breakdown-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.5s ease-out;
+}
+
+.breakdown-bar.engaged .breakdown-fill {
+    background: var(--success);
+}
+
+.breakdown-bar.neutral .breakdown-fill {
+    background: var(--text-muted);
+}
+
+.breakdown-bar.distracted .breakdown-fill {
+    background: var(--warning);
+}
+
+/* ============================================
+   Gauge Visualization
+   ============================================ */
+
+.gauge-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.gauge-svg {
+    width: 100%;
+    height: auto;
+}
+
+.gauge-background {
+    fill: none;
+    stroke: var(--tertiary-bg);
+    stroke-width: 12;
+}
+
+.gauge-foreground {
+    fill: none;
+    stroke: url(#gaugeGradient);
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease-out;
+}
+
+.gauge-label {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    text-align: center;
+}
+
+/* ============================================
+   Disclaimer Box
+   ============================================ */
+
+.disclaimer-box {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-md);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--error);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.disclaimer-box strong {
+    color: var(--error);
+}
+
+/* ============================================
+   Adaptive UI Demo
+   ============================================ */
+
+.adaptive-ui-demo {
+    margin-bottom: var(--spacing-xl);
+}
+
+.demo-box {
+    padding: var(--spacing-xl);
+    background: var(--tertiary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.5s ease-out;
+}
+
+.demo-box.stress-mode {
+    padding: var(--spacing-xl);
+    background: var(--secondary-bg);
+}
+
+.demo-box.stress-mode h4 {
+    font-size: 1.5rem;
+}
+
+.demo-box.stress-mode p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.demo-button {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.demo-button:hover {
+    background: var(--accent-cyan);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   Accessibility Controls
+   ============================================ */
+
+.accessibility-controls {
+    margin-top: var(--spacing-xl);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.control-group label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    border-radius: 4px;
+    transition: background var(--transition-fast);
+}
+
+.control-group label:hover {
+    background: var(--tertiary-bg);
+}
+
+.control-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* ============================================
+   Experience Badges
+   ============================================ */
+
+.experience-badges {
+    margin-top: var(--spacing-xl);
+}
+
+.badge-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.experience-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background: var(--tertiary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.experience-badge:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.badge-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.badge-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.badge-count {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+.experience-badge.positive {
+    border-color: var(--success);
+}
+
+.experience-badge.negative {
+    border-color: var(--error);
+}
+
+/* ============================================
+   Model Internals
+   ============================================ */
+
+.probability-table {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.feature-importance {
+    margin-top: var(--spacing-xl);
+}
+
+.feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.feature-item {
+    display: grid;
+    grid-template-columns: 120px 1fr 60px;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.feature-bar {
+    height: 20px;
+    background: var(--tertiary-bg);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.feature-bar div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 10px;
+}
+
+.model-limitations {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--tertiary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.model-limitations ul {
+    margin-top: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+}
+
+.model-limitations li {
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-secondary);
+}

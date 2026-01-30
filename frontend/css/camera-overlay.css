@@ -1,0 +1,374 @@
+/* ============================================
+   Camera Overlay HUD System
+   Live metrics and emotion display on camera feed
+   ============================================ */
+
+.overlay-hud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* ============================================
+   HUD Items - Positioned Overlays
+   ============================================ */
+
+.hud-item {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: var(--spacing-md);
+    min-width: 140px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    animation: hudFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes hudFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Top Left: Emotion Display */
+.hud-item.top-left {
+    top: 1rem;
+    left: 1rem;
+    min-width: 160px;
+}
+
+/* Top Right: Posture & Quality */
+.hud-item.top-right {
+    top: 1rem;
+    right: 1rem;
+}
+
+/* Bottom Left: Gesture */
+.hud-item.bottom-left {
+    bottom: 1rem;
+    left: 1rem;
+}
+
+/* Bottom Right: Stats */
+.hud-item.bottom-right {
+    bottom: 1rem;
+    right: 1rem;
+    min-width: 180px;
+}
+
+/* ============================================
+   HUD Content Styling
+   ============================================ */
+
+.hud-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--foreground-subtle);
+    margin-bottom: var(--spacing-sm);
+}
+
+.hud-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-sm);
+}
+
+.hud-value.emotion {
+    background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hud-value.gesture {
+    font-size: 1.25rem;
+    color: var(--success);
+}
+
+.hud-sublabel {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   Confidence Bar
+   ============================================ */
+
+.confidence-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 100px;
+    overflow: hidden;
+    margin: var(--spacing-sm) 0;
+}
+
+.confidence-fill {
+    height: 100%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+    border-radius: 100px;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 0%;
+}
+
+/* ============================================
+   Quality Indicators
+   ============================================ */
+
+.quality-indicators {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.quality-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+}
+
+.indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.quality-item.good .indicator-dot {
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success);
+}
+
+.quality-item.warning .indicator-dot {
+    background: var(--warning);
+    box-shadow: 0 0 8px var(--warning);
+}
+
+.quality-item.error .indicator-dot {
+    background: var(--error);
+    box-shadow: 0 0 8px var(--error);
+}
+
+/* ============================================
+   Stats Grid (Debug Info)
+   ============================================ */
+
+.hud-item.stats {
+    font-family: var(--font-mono);
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.7rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+}
+
+.stat-value {
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+/* ============================================
+   Warnings Display (Center)
+   ============================================ */
+
+.hud-warnings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(239, 68, 68, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    max-width: 80%;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    animation: warningPulse 1s ease-in-out infinite;
+    display: none;
+}
+
+.hud-warnings.active {
+    display: block;
+}
+
+@keyframes warningPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* ============================================
+   Emotion-Specific Colors
+   ============================================ */
+
+.emotion-happy {
+    color: #10b981;
+}
+
+.emotion-sad {
+    color: #3b82f6;
+}
+
+.emotion-angry {
+    color: #ef4444;
+}
+
+.emotion-surprise {
+    color: #f59e0b;
+}
+
+.emotion-fear {
+    color: #8b5cf6;
+}
+
+.emotion-disgust {
+    color: #14b8a6;
+}
+
+.emotion-neutral {
+    color: #64748b;
+}
+
+/* ============================================
+   Landmark Visualization (Canvas Overlay)
+   ============================================ */
+
+/* Landmarks are drawn on canvas, but we can style the container */
+.landmarks-enabled #overlay {
+    opacity: 1;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+    .hud-item {
+        padding: 0.5rem;
+        min-width: 120px;
+    }
+
+    .hud-item.top-left,
+    .hud-item.top-right,
+    .hud-item.bottom-left,
+    .hud-item.bottom-right {
+        top: 0.5rem;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        left: 0.5rem;
+    }
+
+    .hud-value {
+        font-size: 1.25rem;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   Animation States
+   ============================================ */
+
+.hud-item.updating {
+    animation: hudUpdate 0.3s ease-out;
+}
+
+@keyframes hudUpdate {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Glow effect for high confidence */
+.hud-item.high-confidence {
+    border-color: rgba(0, 217, 255, 0.5);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+}
+
+/* Pulse effect for gesture detection */
+.hud-value.gesture.detected {
+    animation: gesturePulse 0.5s ease-out;
+}
+
+@keyframes gesturePulse {
+    0% {
+        transform: scale(1);
+        text-shadow: none;
+    }
+
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 10px var(--success);
+    }
+
+    100% {
+        transform: scale(1);
+        text-shadow: none;
+    }
+}
+
+/* ============================================
+   Overlay Toggle States
+   ============================================ */
+
+.overlay-hud.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay-hud.minimal .hud-item:not(.top-left) {
+    opacity: 0.3;
+}
+
+.overlay-hud.minimal .hud-item:not(.top-left):hover {
+    opacity: 1;
+}

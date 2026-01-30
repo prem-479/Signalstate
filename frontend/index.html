@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signalstate | Real-Time Emotion Detection System</title>
+    <meta name="description" content="Research-grade emotion detection portfolio demonstration">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/camera-overlay.css">
+    <link rel="stylesheet" href="css/tabs.css">
+    <link rel="stylesheet" href="css/loader.css">
+    <!-- Scripts -->
+    <script src="js/spotlight.js" defer></script>
+</head>
+
+<body>
+    <!-- Cinematic Loader Overlay -->
+    <div id="loaderOverlay" class="loader-overlay">
+        <div class="main-container">
+            <div class="loader">
+                <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="chipGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#2d2d2d"></stop>
+                            <stop offset="100%" stop-color="#0f0f0f"></stop>
+                        </linearGradient>
+
+                        <linearGradient id="textGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#eeeeee"></stop>
+                            <stop offset="100%" stop-color="#888888"></stop>
+                        </linearGradient>
+
+                        <linearGradient id="pinGradient" x1="1" y1="0" x2="0" y2="0">
+                            <stop offset="0%" stop-color="#bbbbbb"></stop>
+                            <stop offset="50%" stop-color="#888888"></stop>
+                            <stop offset="100%" stop-color="#555555"></stop>
+                        </linearGradient>
+                    </defs>
+
+                    <g id="traces">
+                        <path d="M100 100 H200 V210 H326" class="trace-bg"></path>
+                        <path d="M100 100 H200 V210 H326" class="trace-flow purple"></path>
+
+                        <path d="M80 180 H180 V230 H326" class="trace-bg"></path>
+                        <path d="M80 180 H180 V230 H326" class="trace-flow blue"></path>
+
+                        <path d="M60 260 H150 V250 H326" class="trace-bg"></path>
+                        <path d="M60 260 H150 V250 H326" class="trace-flow yellow"></path>
+
+                        <path d="M100 350 H200 V270 H326" class="trace-bg"></path>
+                        <path d="M100 350 H200 V270 H326" class="trace-flow green"></path>
+
+                        <path d="M700 90 H560 V210 H474" class="trace-bg"></path>
+                        <path d="M700 90 H560 V210 H474" class="trace-flow blue"></path>
+
+                        <path d="M740 160 H580 V230 H474" class="trace-bg"></path>
+                        <path d="M740 160 H580 V230 H474" class="trace-flow green"></path>
+
+                        <path d="M720 250 H590 V250 H474" class="trace-bg"></path>
+                        <path d="M720 250 H590 V250 H474" class="trace-flow red"></path>
+
+                        <path d="M680 340 H570 V270 H474" class="trace-bg"></path>
+                        <path d="M680 340 H570 V270 H474" class="trace-flow yellow"></path>
+                    </g>
+
+                    <rect x="330" y="190" width="140" height="100" rx="20" ry="20" fill="url(#chipGradient)"
+                        stroke="#222" stroke-width="3" filter="drop-shadow(0 0 6px rgba(0,0,0,0.8))"></rect>
+
+                    <g>
+                        <rect x="322" y="205" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                        <rect x="322" y="225" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                        <rect x="322" y="245" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                        <rect x="322" y="265" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                    </g>
+
+                    <g>
+                        <rect x="470" y="205" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                        <rect x="470" y="225" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                        <rect x="470" y="245" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                        <rect x="470" y="265" width="8" height="10" fill="url(#pinGradient)" rx="2"></rect>
+                    </g>
+
+                    <text x="400" y="240" font-size="22" fill="url(#textGradient)" text-anchor="middle"
+                        alignment-baseline="middle" class="chip-text">
+                        Processing
+                    </text>
+
+                    <circle cx="100" cy="100" r="5" fill="black"></circle>
+                    <circle cx="80" cy="180" r="5" fill="black"></circle>
+                    <circle cx="60" cy="260" r="5" fill="black"></circle>
+                    <circle cx="100" cy="350" r="5" fill="black"></circle>
+
+                    <circle cx="700" cy="90" r="5" fill="black"></circle>
+                    <circle cx="740" cy="160" r="5" fill="black"></circle>
+                    <circle cx="720" cy="250" r="5" fill="black"></circle>
+                    <circle cx="680" cy="340" r="5" fill="black"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ambient Background System -->
+    <div class="ambient-background">
+        <div class="ambient-noise"></div>
+        <div class="ambient-grid"></div>
+        <div class="ambient-blob blob-1"></div>
+        <div class="ambient-blob blob-2"></div>
+        <div class="ambient-blob blob-3"></div>
+    </div>
+
+    <!-- Privacy Banner -->
+    <div id="privacyBanner" class="privacy-banner">
+        <div class="banner-content">
+            <div class="banner-text">
+                <strong>Privacy Notice:</strong> This system processes video locally in your browser. No frames are
+                stored. All processing is session-only.
+            </div>
+            <button id="acceptPrivacy" class="btn-accept">I Understand</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="title">Signalstate</h1>
+                    <p class="subtitle">Real-Time Emotion Detection • Research Demonstration</p>
+                </div>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-dot" id="statusDot"></span>
+                        <span id="statusText">Initializing</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Camera Consent Modal -->
+        <div id="consentModal" class="modal">
+            <div class="modal-content">
+                <h2>Camera Access Required</h2>
+                <p>This application requires camera access to demonstrate emotion detection capabilities.</p>
+                <div class="consent-details">
+                    <ul>
+                        <li>Video is processed in real-time only</li>
+                        <li>No frames are saved or stored</li>
+                        <li>No identity recognition is performed</li>
+                        <li>All data is session-only</li>
+                    </ul>
+                </div>
+                <div class="modal-actions">
+                    <button id="acceptConsent" class="btn-primary">Grant Camera Access</button>
+                    <button id="declineConsent" class="btn-secondary">Decline</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="main-grid">
+            <!-- Left Panel: Camera Feed -->
+            <div class="camera-panel">
+                <div class="camera-container">
+                    <video id="webcam" autoplay playsinline></video>
+                    <canvas id="overlay"></canvas>
+
+                    <!-- Live Overlays -->
+                    <div class="overlay-hud">
+                        <!-- Top Left: Emotion & Confidence -->
+                        <div class="hud-item top-left">
+                            <div class="hud-label">CURRENT MOOD</div>
+                            <div class="hud-value emotion" id="emotionDisplay">--</div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill"></div>
+                            </div>
+                            <div class="hud-sublabel" id="confidenceText">--</div>
+                        </div>
+
+                        <!-- Top Right: Posture & Quality -->
+                        <div class="hud-item top-right">
+                            <div class="hud-label">POSTURE CHECK</div>
+                            <div class="hud-value" id="postureDisplay">--</div>
+                            <div class="quality-indicators">
+                                <div class="quality-item" id="lightingIndicator">
+                                    <span class="indicator-dot"></span>
+                                    <span>Lighting</span>
+                                </div>
+                                <div class="quality-item" id="angleIndicator">
+                                    <span class="indicator-dot"></span>
+                                    <span>Angle</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Left: Gesture Detection -->
+                        <div class="hud-item bottom-left">
+                            <div class="hud-label">GESTURE</div>
+                            <div class="hud-value gesture" id="gestureDisplay">--</div>
+                        </div>
+
+                        <!-- Bottom Right: Technical Stats -->
+                        <div class="hud-item bottom-right stats">
+                            <div class="hud-label">AI STATS (DEBUG)</div>
+                            <div class="stat-grid">
+                                <div class="stat-item">
+                                    <span class="stat-label">FPS:</span>
+                                    <span class="stat-value" id="fpsDisplay">0.00</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Latency:</span>
+                                    <span class="stat-value" id="latencyDisplay">0ms</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Confidence:</span>
+                                    <span class="stat-value" id="confDisplay">0.00</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Landmarks:</span>
+                                    <span class="stat-value" id="landmarkDisplay">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center: Warnings -->
+                        <div class="hud-warnings" id="warningsDisplay"></div>
+                    </div>
+
+                    <!-- Camera Controls -->
+                    <div class="camera-controls">
+                        <button id="toggleCamera" class="control-btn" title="Start/Stop">
+                            <span class="icon">●</span>
+                        </button>
+                        <button id="toggleLandmarks" class="control-btn active" title="Toggle Landmarks">
+                            <span class="icon">◉</span>
+                        </button>
+                        <button id="toggleOverlays" class="control-btn active" title="Toggle Overlays">
+                            <span class="icon">⊞</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Tabs & Visualizations -->
+            <div class="data-panel">
+                <!-- Tab Navigation -->
+                <nav class="tab-nav">
+                    <button class="tab-btn active" data-tab="live">Live Demo</button>
+                    <button class="tab-btn" data-tab="hci">HCI Research</button>
+                    <button class="tab-btn" data-tab="learning">Learning</button>
+                    <button class="tab-btn" data-tab="accessibility">Accessibility</button>
+                    <button class="tab-btn" data-tab="cx">CX Analysis</button>
+                    <button class="tab-btn" data-tab="explainability">Explainability</button>
+                </nav>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Live Demo Tab -->
+                    <div class="tab-pane active" id="tab-live">
+                        <div class="tab-header">
+                            <h2>Live Emotion Detection</h2>
+                            <p>Real-time emotion classification with confidence scores and technical metrics</p>
+                        </div>
+
+                        <div class="emotion-probabilities">
+                            <h3>Emotion Probabilities</h3>
+                            <div class="prob-bars" id="probabilityBars"></div>
+                        </div>
+
+                        <div class="emotion-timeline">
+                            <h3>Emotion Timeline</h3>
+                            <canvas id="emotionChart"></canvas>
+                        </div>
+
+                        <div class="technical-info">
+                            <h3>Technical Information</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Model</label>
+                                    <value>TensorFlow Emotion Classifier</value>
+                                </div>
+                                <div class="info-item">
+                                    <label>Face Detection</label>
+                                    <value>MediaPipe Face Mesh</value>
+                                </div>
+                                <div class="info-item">
+                                    <label>Frame Rate</label>
+                                    <value id="targetFps">10-15 FPS</value>
+                                </div>
+                                <div class="info-item">
+                                    <label>Processing</label>
+                                    <value>Client + Server</value>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HCI Research Tab -->
+                    <div class="tab-pane" id="tab-hci">
+                        <div class="tab-header">
+                            <h2>HCI / UX Research Mode</h2>
+                            <p>Track engagement, emotional stability, and interaction patterns</p>
+                        </div>
+
+                        <div class="engagement-meter">
+                            <h3>Engagement Score</h3>
+                            <div class="meter-container">
+                                <div class="meter-bar">
+                                    <div class="meter-fill" id="engagementFill"></div>
+                                </div>
+                                <div class="meter-value" id="engagementValue">0%</div>
+                            </div>
+                            <p class="meter-note">Based on facial expression variety and attention patterns</p>
+                        </div>
+
+                        <div class="stability-chart">
+                            <h3>Emotional Stability Index</h3>
+                            <canvas id="stabilityChart"></canvas>
+                            <p class="chart-note">Lower variance indicates more stable emotional state</p>
+                        </div>
+
+                        <div class="session-stats">
+                            <h3>Session Analytics</h3>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="sessionDuration">0:00</div>
+                                    <div class="stat-label">Session Duration</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="emotionSwitches">0</div>
+                                    <div class="stat-label">Emotion Changes</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number" id="avgConfidence">0%</div>
+                                    <div class="stat-label">Avg Confidence</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Learning Mode Tab -->
+                    <div class="tab-pane" id="tab-learning">
+                        <div class="tab-header">
+                            <h2>Learning & Attention Mode</h2>
+                            <p>Monitor attention patterns during learning activities</p>
+                            <div class="warning-badge">⚠️ Educational Interpretation Only</div>
+                        </div>
+
+                        <div class="attention-gauge">
+                            <h3>Attention Indicator</h3>
+                            <div class="gauge-container">
+                                <svg class="gauge-svg" viewBox="0 0 200 120">
+                                    <path class="gauge-background" d="M 20 100 A 80 80 0 0 1 180 100"></path>
+                                    <path class="gauge-foreground" id="attentionGauge"
+                                        d="M 20 100 A 80 80 0 0 1 180 100"></path>
+                                </svg>
+                                <div class="gauge-label" id="attentionLabel">Monitoring...</div>
+                            </div>
+                        </div>
+
+                        <div class="attention-breakdown">
+                            <h3>Session Breakdown</h3>
+                            <div class="breakdown-bars">
+                                <div class="breakdown-item">
+                                    <label>Engaged</label>
+                                    <div class="breakdown-bar engaged">
+                                        <div class="breakdown-fill" id="engagedFill"></div>
+                                    </div>
+                                    <span id="engagedPercent">0%</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <label>Neutral</label>
+                                    <div class="breakdown-bar neutral">
+                                        <div class="breakdown-fill" id="neutralFill"></div>
+                                    </div>
+                                    <span id="neutralPercent">0%</span>
+                                </div>
+                                <div class="breakdown-item">
+                                    <label>Distracted</label>
+                                    <div class="breakdown-bar distracted">
+                                        <div class="breakdown-fill" id="distractedFill"></div>
+                                    </div>
+                                    <span id="distractedPercent">0%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="disclaimer-box">
+                            <strong>Important:</strong> This mode provides interpretative guidance only.
+                            Attention is complex and cannot be reliably determined from facial expressions alone.
+                            Use as one data point among many, never as definitive assessment.
+                        </div>
+                    </div>
+
+                    <!-- Accessibility Tab -->
+                    <div class="tab-pane" id="tab-accessibility">
+                        <div class="tab-header">
+                            <h2>Adaptive Accessibility Mode</h2>
+                            <p>UI adapts based on detected emotional state</p>
+                        </div>
+
+                        <div class="adaptive-ui-demo">
+                            <h3>Adaptive Interface Example</h3>
+                            <div class="demo-box" id="adaptiveBox">
+                                <h4>Content adapts to your emotional state</h4>
+                                <p>When stress or confusion is detected, interface simplifies automatically.</p>
+                                <button class="demo-button">Sample Interactive Element</button>
+                            </div>
+                        </div>
+
+                        <div class="accessibility-controls">
+                            <h3>Override Controls</h3>
+                            <div class="control-group">
+                                <label>
+                                    <input type="checkbox" id="highContrastToggle">
+                                    Force High Contrast
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="largeTextToggle">
+                                    Force Large Text
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="reduceMotionToggle">
+                                    Reduce Motion
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="disableAdaptiveToggle" checked>
+                                    Enable Adaptive UI
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CX Analysis Tab -->
+                    <div class="tab-pane" id="tab-cx">
+                        <div class="tab-header">
+                            <h2>Customer Experience Analysis</h2>
+                            <p>Map emotional responses to experience quality</p>
+                        </div>
+
+                        <div class="sentiment-distribution">
+                            <h3>Sentiment Distribution</h3>
+                            <canvas id="sentimentChart"></canvas>
+                        </div>
+
+                        <div class="experience-badges">
+                            <h3>Experience Summary</h3>
+                            <div class="badge-container">
+                                <div class="experience-badge positive">
+                                    <span class="badge-icon">😊</span>
+                                    <span class="badge-label">Positive Moments</span>
+                                    <span class="badge-count" id="positiveMoments">0</span>
+                                </div>
+                                <div class="experience-badge neutral">
+                                    <span class="badge-icon">😐</span>
+                                    <span class="badge-label">Neutral Periods</span>
+                                    <span class="badge-count" id="neutralMoments">0</span>
+                                </div>
+                                <div class="experience-badge negative">
+                                    <span class="badge-icon">😟</span>
+                                    <span class="badge-label">Friction Points</span>
+                                    <span class="badge-count" id="negativeMoments">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explainability Tab -->
+                    <div class="tab-pane" id="tab-explainability">
+                        <div class="tab-header">
+                            <h2>Model Explainability Lab</h2>
+                            <p>Understand how the AI makes decisions</p>
+                        </div>
+
+                        <div class="model-internals">
+                            <h3>Raw Model Output</h3>
+                            <div class="probability-table" id="probabilityTable"></div>
+                        </div>
+
+                        <div class="feature-importance">
+                            <h3>Feature Importance</h3>
+                            <p>Which facial regions influence the prediction most</p>
+                            <div class="feature-list">
+                                <div class="feature-item">
+                                    <span>Eye Region</span>
+                                    <div class="feature-bar">
+                                        <div style="width: 85%"></div>
+                                    </div>
+                                    <span>85%</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span>Mouth Region</span>
+                                    <div class="feature-bar">
+                                        <div style="width: 78%"></div>
+                                    </div>
+                                    <span>78%</span>
+                                </div>
+                                <div class="feature-item">
+                                    <span>Eyebrows</span>
+                                    <div class="feature-bar">
+                                        <div style="width: 65%"></div>
+                                    </div>
+                                    <span>65%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="model-limitations">
+                            <h3>Known Limitations</h3>
+                            <ul>
+                                <li>Trained on FER2013 dataset (grayscale, controlled conditions)</li>
+                                <li>May not generalize to all demographics equally</li>
+                                <li>Cannot detect micro-expressions or deliberate masking</li>
+                                <li>Accuracy decreases with poor lighting or extreme angles</li>
+                                <li>Confusion between similar emotions (e.g., fear and surprise)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Privacy & Ethics</h4>
+                    <p>No data storage • Session-only processing • Privacy-first design</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Technical</h4>
+                    <p>TensorFlow • MediaPipe • OpenCV • FastAPI</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Disclaimer</h4>
+                    <p>Research demonstration • Not for medical/diagnostic use</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/camera.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/overlays.js"></script>
+    <script src="js/tabs.js"></script>
+    <script src="js/visualizations.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

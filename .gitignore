@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+ENV/
+backend/venv/
+
+# Logs
+*.log
+backend.log
+frontend.log
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Workspace
+.vscode/
+.idea/
+.gemini/

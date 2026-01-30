@@ -1,0 +1,101 @@
+/* ============================================
+   Signalstate - Cinematic Loader
+   Based on Uiverse.io by Vosoone
+   ============================================ */
+
+.loader-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--background-base);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+}
+
+.loader-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    width: 90%;
+}
+
+.loader {
+    width: 100%;
+}
+
+.trace-bg {
+    stroke: #1a1a1a;
+    stroke-width: 1.8;
+    fill: none;
+}
+
+.trace-flow {
+    stroke-width: 1.8;
+    fill: none;
+    stroke-dasharray: 40 400;
+    stroke-dashoffset: 438;
+    filter: drop-shadow(0 0 6px currentColor);
+    animation: flow 3s cubic-bezier(0.5, 0, 0.9, 1) infinite;
+}
+
+.yellow {
+    stroke: #ffea00;
+    color: #ffea00;
+}
+
+.blue {
+    stroke: #5E6AD2;
+    /* Accent color */
+    color: #5E6AD2;
+}
+
+.green {
+    stroke: #10b981;
+    color: #10b981;
+}
+
+.purple {
+    stroke: #9900ff;
+    color: #9900ff;
+}
+
+.red {
+    stroke: #ef4444;
+    color: #ef4444;
+}
+
+@keyframes flow {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Čip */
+.chip-body {
+    rx: 20;
+    ry: 20;
+}
+
+/* Text uvnitř čipu */
+.chip-text {
+    font-family: var(--font-display);
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Piny */
+.chip-pin {
+    stroke: #444;
+    stroke-width: 0.5;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
+}
