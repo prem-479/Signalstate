@@ -332,7 +332,7 @@ aws s3 sync ./frontend s3://your-bucket-name
 
 ### HTTPS Requirements
 
-⚠️ **Webcam access requires HTTPS in production!**
+ **Webcam access requires HTTPS in production!**
 
 **Options:**
 1. Use platform-provided HTTPS (Netlify, Vercel, etc.)
@@ -436,14 +436,14 @@ uvicorn app:app --workers 4
 ### Browser Compatibility
 
 **Supported:**
-- Chrome 90+ ✅
-- Firefox 88+ ✅
-- Safari 14+ ✅
-- Edge 90+ ✅
+- Chrome 90+ 
+- Firefox 88+ 
+- Safari 14+ 
+- Edge 90+ 
 
 **Not supported:**
-- Internet Explorer ❌
-- Mobile browsers (limited) ⚠️
+- Internet Explorer 
+- Mobile browsers (limited) 
 
 ### Debug Mode
 

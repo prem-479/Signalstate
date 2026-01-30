@@ -2,7 +2,7 @@
 
 A professional, research-grade emotion detection demonstration system featuring real-time facial expression analysis with live camera overlays, multiple application contexts, and privacy-first architecture.
 
-## 🎯 Project Overview
+##  Project Overview
 
 This is a **portfolio demonstration**, not a commercial product. It showcases:
 
@@ -12,7 +12,7 @@ This is a **portfolio demonstration**, not a commercial product. It showcases:
 - Privacy-first, session-only processing
 - Research-grade architecture and documentation
 
-## ✨ Key Features
+##  Key Features
 
 ### Live Camera Overlay System
 - Real-time emotion display with confidence scores
@@ -36,7 +36,7 @@ This is a **portfolio demonstration**, not a commercial product. It showcases:
 - Comprehensive quality warnings and validation
 - Professional, non-generic UI design
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
@@ -50,7 +50,7 @@ This is a **portfolio demonstration**, not a commercial product. It showcases:
    Live HUD         Face Mesh          7 Emotions
 ```
 
-## 📋 Prerequisites
+##  Prerequisites
 
 ### Backend Requirements
 - Python 3.10+
@@ -61,7 +61,7 @@ This is a **portfolio demonstration**, not a commercial product. It showcases:
 - Modern web browser (Chrome/Firefox recommended)
 - HTTPS or localhost (required for webcam access)
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Clone Repository
 
@@ -112,7 +112,7 @@ Frontend runs on `http://localhost:8080`
 3. Grant camera permissions
 4. Start detection!
 
-## 🎨 UI Design Philosophy
+##  UI Design Philosophy
 
 - **Research Instrument Aesthetic**: Professional, intentional, non-generic
 - **Typography**: IBM Plex Mono (metrics) + Space Grotesk (headings)
@@ -120,7 +120,7 @@ Frontend runs on `http://localhost:8080`
 - **Information Density**: Clear hierarchy with technical accuracy
 - **Motion**: Purposeful, data-driven animations
 
-## 📊 Technical Specifications
+##  Technical Specifications
 
 ### Backend Performance
 - **Latency**: < 150ms end-to-end
@@ -138,16 +138,16 @@ Frontend runs on `http://localhost:8080`
 - Head pose estimation
 - Quality assessment (lighting, angle, occlusion)
 
-## 🔒 Privacy & Ethics
+##  Privacy & Ethics
 
 ### Core Principles
-- ❌ No data storage
-- ❌ No database
-- ❌ No identity recognition
-- ❌ No medical/diagnostic claims
-- ✅ Session-only processing
-- ✅ Explicit consent required
-- ✅ Clear limitations messaging
+-  No data storage
+-  No database
+-  No identity recognition
+-  No medical/diagnostic claims
+-  Session-only processing
+-  Explicit consent required
+-  Clear limitations messaging
 
 ### Data Handling
 - All processing is in-memory
@@ -155,7 +155,7 @@ Frontend runs on `http://localhost:8080`
 - No persistent storage
 - User-initiated camera access
 
-## 🧪 Development
+##  Development
 
 ### Project Structure
 ```
@@ -209,7 +209,7 @@ Returns:
 #### `POST /reset`
 Reset temporal smoothing and session state
 
-## 🔧 Configuration
+##  Configuration
 
 ### Adjust Frame Rate
 ```javascript
@@ -223,7 +223,7 @@ this.frameRate = 15; // FPS (1-30)
 smoother = TemporalSmoother(window_size=5)
 ```
 
-## 🎯 Use Cases
+##  Use Cases
 
 ### For Recruiters
 - Demonstrates full-stack ML engineering
@@ -243,7 +243,7 @@ smoother = TemporalSmoother(window_size=5)
 - Modular design patterns
 - Comprehensive documentation
 
-## ⚠️ Limitations
+##  Limitations
 
 - Trained on FER2013 dataset (grayscale, controlled conditions)
 - May not generalize across all demographics equally
@@ -251,24 +251,24 @@ smoother = TemporalSmoother(window_size=5)
 - Accuracy decreases with poor lighting or extreme angles
 - Confusion possible between similar emotions (e.g., fear/surprise)
 
-## 📚 Additional Documentation
+##  Additional Documentation
 
 - `docs/PRIVACY.md` - Privacy policy and data handling
 - `docs/ETHICS.md` - Ethical considerations and responsible use
 - `docs/TECHNICAL.md` - Technical deep dive and API reference
 
-## 🤝 Contributing
+##  Contributing
 
 This is a portfolio project. Feel free to fork and adapt for your own use, but please:
 - Maintain privacy-first principles
 - Keep ethical disclaimers
 - Attribute appropriately
 
-## 📝 License
+##  License
 
 [Your chosen license here]
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **MediaPipe** - Face landmark detection
 - **TensorFlow** - Emotion classification
@@ -277,7 +277,7 @@ This is a portfolio project. Feel free to fork and adapt for your own use, but p
 
 ---
 
-## 🚨 Disclaimer
+##  Disclaimer
 
 **This system is for demonstration purposes only.**
 
@@ -289,4 +289,4 @@ This is a portfolio project. Feel free to fork and adapt for your own use, but p
 
 ---
 
-Built with ❤️ for technical demonstration and portfolio showcase.
+Built with  for technical demonstration and portfolio showcase.

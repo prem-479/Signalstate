@@ -330,7 +330,7 @@ body::-webkit-scrollbar {
 }
 
 .consent-details li::before {
-    content: '✓';
+    content: '';
     position: absolute;
     left: 0;
     color: var(--success);

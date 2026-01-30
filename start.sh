@@ -27,7 +27,7 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 PYTHON_VERSION=$(python3 --version | cut -d' ' -f2 | cut -d'.' -f1,2)
-echo -e "${GREEN}✓${NC} Python $PYTHON_VERSION found"
+echo -e "${GREEN}${NC} Python $PYTHON_VERSION found"
 
 # Create directory structure if not exists
 echo ""
@@ -35,7 +35,7 @@ echo "Setting up project structure..."
 mkdir -p backend
 mkdir -p frontend/{css,js}
 mkdir -p docs
-echo -e "${GREEN}✓${NC} Directory structure created"
+echo -e "${GREEN}${NC} Directory structure created"
 
 # Setup backend
 echo ""
@@ -49,9 +49,9 @@ cd backend
 if [ ! -d "venv" ]; then
     echo "Creating virtual environment..."
     python3 -m venv venv
-    echo -e "${GREEN}✓${NC} Virtual environment created"
+    echo -e "${GREEN}${NC} Virtual environment created"
 else
-    echo -e "${YELLOW}⚠${NC} Virtual environment already exists"
+    echo -e "${YELLOW}${NC} Virtual environment already exists"
 fi
 
 # Activate virtual environment
@@ -63,7 +63,7 @@ echo "Installing Python dependencies..."
 if [ -f "requirements.txt" ]; then
     pip install --quiet --upgrade pip
     pip install --quiet -r requirements.txt
-    echo -e "${GREEN}✓${NC} Dependencies installed"
+    echo -e "${GREEN}${NC} Dependencies installed"
 else
     echo -e "${RED}Error: requirements.txt not found${NC}"
     exit 1
@@ -77,7 +77,7 @@ try:
     import mediapipe
     import fastapi
     import uvicorn
-    print("${GREEN}✓${NC} All dependencies verified")
+    print("${GREEN}${NC} All dependencies verified")
 except ImportError as e:
     print(f"${RED}Error: Missing dependency - {e}${NC}")
     exit(1)
@@ -92,7 +92,7 @@ echo "=========================================="
 echo "Starting FastAPI backend..."
 python app.py &
 BACKEND_PID=$!
-echo -e "${GREEN}✓${NC} Backend started (PID: $BACKEND_PID)"
+echo -e "${GREEN}${NC} Backend started (PID: $BACKEND_PID)"
 
 # Wait for backend to be ready
 echo "Waiting for backend to initialize..."
@@ -100,7 +100,7 @@ sleep 3
 
 # Check if backend is running
 if curl -s http://localhost:8000/health > /dev/null; then
-    echo -e "${GREEN}✓${NC} Backend is healthy"
+    echo -e "${GREEN}${NC} Backend is healthy"
 else
     echo -e "${RED}Error: Backend failed to start${NC}"
     kill $BACKEND_PID
@@ -117,14 +117,14 @@ if command -v python3 &> /dev/null; then
     echo "Using Python HTTP server..."
     python3 -m http.server 8080 &
     FRONTEND_PID=$!
-    echo -e "${GREEN}✓${NC} Frontend started (PID: $FRONTEND_PID)"
+    echo -e "${GREEN}${NC} Frontend started (PID: $FRONTEND_PID)"
 elif command -v node &> /dev/null; then
     echo "Using npx http-server..."
     npx http-server -p 8080 --cors &
     FRONTEND_PID=$!
-    echo -e "${GREEN}✓${NC} Frontend started (PID: $FRONTEND_PID)"
+    echo -e "${GREEN}${NC} Frontend started (PID: $FRONTEND_PID)"
 else
-    echo -e "${YELLOW}⚠${NC} No HTTP server available"
+    echo -e "${YELLOW}${NC} No HTTP server available"
     echo "Please manually serve the frontend directory"
 fi
 
@@ -133,7 +133,7 @@ sleep 2
 
 echo ""
 echo "=========================================="
-echo "✓ Setup Complete!"
+echo " Setup Complete!"
 echo "=========================================="
 echo ""
 echo "Services running:"
